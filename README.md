@@ -1,10 +1,41 @@
-# Transaction Flow Engine
-This is offchain token transaction framework. It follows the paradigm, where toknes are being managed, stored and transferred offchain (on users' premises or in cloud, outside of the blockchain ledger) and single-spend proofs only are being generated on-chain. 
-Here, token is a stand-alone entity containing all the info and cryptographic proofs attesting current token's state (like, ownership, value, etc.). Token's state change is accompanied by consulting with the blockchain infrastructure (Unicity) that should produce the proof of single spend of the token from its current 
- cryptographically verifiable statement that the given source state has been changed to a new given state and there were no other transitions from the source state before. Cryptographic commitments about the token spent contain no info about the token, its initial state and 
-its destination state as well as no info about the nature of the transaction itself. I.e., when someone observes traffic between clients and Unicity infrastructure, it is not possible to say whether submited commitments refer to token transactions or to some 
-completely other kinds of processes. All the transaction commitments are being aggregated into global distributed hash tree data structure rooted in the Unicity blockchain. In this manner, we have horizontally scalable on-demand blockchain infrastructure capable for
-accomodating millions of transaction commitments per block.
+## State Transition Commitment Engine
+
+### Overview
+
+The **State Transition Commitment Engine** is an off-chain token transaction framework designed to manage, store, and transfer tokens outside of the blockchain ledger. This can occur on users' premises or in the cloud, ensuring that only **state transition commitments** are generated on-chain.
+
+### Token as a Stand-Alone Entity
+
+Each token functions as a self-contained entity, holding all necessary information and cryptographic proofs attesting to its current state, including:
+
+- **Ownership**
+- **Value**
+- **Other cryptographic attributes**
+
+### State Transition & Blockchain Interaction
+
+When a token's state changes, the system consults the **Unicity blockchain infrastructure** to produce a **state transition commitment**. This commitment serves as a cryptographic proof that:
+
+1. The token has transitioned from a verifiable source state to a newly defined state.
+2. No other transitions occurred from the source state before this one.
+
+### Privacy & Security
+
+The cryptographic commitments regarding token spending are **privacy-preserving** and do **not** reveal:
+
+- Information about the token itself.
+- Its initial or destination state.
+- The nature of the transaction.
+
+As a result, even if someone observes network traffic between clients and the Unicity infrastructure, they cannot determine whether the submitted commitments pertain to token transactions or unrelated processes.
+
+### Scalability & Efficiency
+
+All transaction commitments are aggregated into a **global distributed hash tree** structure, rooted in the Unicity blockchain. This approach enables:
+
+- **Horizontal scalability** of the blockchain infrastructure.
+- **On-demand processing** of transaction commitments.
+- The ability to accommodate **millions of transaction commitments per block**.
 
 ## Web GUI interface
 [Token GUI stand-alone page](https://unicitynetwork.github.io/tx-flow-engine/)
@@ -73,7 +104,7 @@ create a valid transition. Hence, we say that the sender creates a `transaction`
 the knowledge of the source state (sender's public key) and the recipient's pointer cannot guess from the Unicity commitment whether the token has been transfered to the given recipient or to someone/somewhere else. Only the recipient can resolve a transaction into the
 relevant transition by substituting the pointer into the respective recipient's token state.
 
-### Trnasaction structure
+### Transaction structure
  - Source state: sender's public key, nonce, tokenId, tokenClass, etc.
  - Input: sender's proof of the ownership and Unicity (single-spend) proof
  - Destination pointer: the prointer refering the hidden expected token's destination state. Must be shared by the recipient with the sender
